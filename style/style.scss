@@ -1,0 +1,19 @@
+$screen-M: 640px;
+$env-safe-area-bottom: env(safe-area-inset-bottom);
+
+@mixin safe-area-inset-bottom($bottom: 0) {
+  @if $bottom == 0 {
+    padding-bottom: $env-safe-area-bottom;
+  } @else {
+    padding-bottom: calc(#{$bottom} + #{$env-safe-area-bottom});
+  }
+}
+
+@mixin screen-M {
+  @media (min-width: $screen-M + 1) {
+    @content;
+  }
+}
+
+
+@import "/style/c-dialog";

@@ -1,0 +1,194 @@
+.c-dialog {
+  --dialog-desktop-max-width: 780px;
+  --dialog-desktop-spacing-x: 20px;
+  --dialog-desktop-spacing-y: 80px;
+  --dialog-top-sticky-bar-height: 50px;
+  --dialog-background-color: white;
+  --dialog-main-spacing-x: 20px;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  padding: 0;
+  border: none;
+  overflow-y: auto;
+  // user-agentで000と設定されていることがあるので、上書き
+  color: black;
+  animation: dialogFadeIn 300ms ease forwards;
+
+  @keyframes dialogFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @include screen-M {
+    --dialog-main-spacing-x: 80px;
+
+    margin: var(--dialog-desktop-spacing-y)
+      max(
+        var(--dialog-desktop-spacing-x),
+        calc(50% - calc(var(--dialog-desktop-max-width) / 2))
+      );
+  }
+
+  &::backdrop {
+    /* native */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  & + .backdrop {
+    /* polyfill */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  & > form {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100%;
+    background-color: var(--dialog-background-color);
+  }
+
+  header {
+    --dialog-header-spacing-y: 40px;
+
+    margin-top: calc(
+      var(--dialog-header-spacing-y) - var(--dialog-top-sticky-bar-height)
+    );
+    padding-bottom: var(--dialog-header-spacing-y);
+
+    @include screen-M {
+      --dialog-header-spacing-y: 60px;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding-left: var(--dialog-main-spacing-x);
+    padding-right: var(--dialog-main-spacing-x);
+  }
+}
+
+.c-dialog__top-sticky-bar {
+  --dialog-top-sticky-bar-spacing-x: 16px;
+
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: var(--dialog-top-sticky-bar-height);
+  padding-left: var(--dialog-top-sticky-bar-spacing-x);
+  padding-right: var(--dialog-top-sticky-bar-spacing-x);
+
+  &.is-sticky {
+    background-color: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    // Dialogのコンテンツでposition:absolute使った際に、被るので設定
+    z-index: 1;
+  }
+}
+
+.c-dialog__close-button {
+  --dialog-close-size: 24px;
+
+  // hover
+  transition: 500ms opacity;
+  &:hover {
+    opacity: 0.75;
+    cursor: pointer;
+  }
+
+  & > svg {
+    width: var(--dialog-close-size);
+    height: var(--dialog-close-size);
+  }
+}
+
+.c-dialog__action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  height: 44px;
+  padding: 0 20px;
+  transition: 500ms;
+  border: 1px solid gray;
+  border-radius: 2px;
+  background-color: white;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  width: 240px;
+  height: 44px;
+  font-size: 16px;
+
+  @include screen-M {
+    width: 320px;
+  }
+
+  &:focus {
+    // hover mixinと同じスタイルを適用
+    transition: 500ms opacity;
+    opacity: 0.75;
+  }
+}
+
+.c-dialog__bottom-bar {
+  // mixinにcustom-propertyは渡せないので、sass変数で定義
+  $dialog-bottom-bar-spacing: 10px;
+
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: $dialog-bottom-bar-spacing;
+  @include safe-area-inset-bottom($dialog-bottom-bar-spacing);
+  background-color: #fff;
+  border-top: 1px solid gray;
+
+  @include screen-M {
+    padding: $dialog-bottom-bar-spacing var(--dialog-main-spacing-x);
+  }
+
+  // iOSにて、最初からstickyにしておくと、DialogのbottomBarの表示が遅れるので、ファーストビューからスクロールされた時だけstickyで表示する
+  &.is-sticky {
+    position: sticky;
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+// タッチデバイス(iOS)で、focusが当たって、outlineが見える問題を解決
+@media (hover: none) and (pointer: coarse) {
+  .c-dialog__action-button,
+  .c-dialog__close-button {
+    outline: none;
+  }
+}
