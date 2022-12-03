@@ -1,6 +1,5 @@
 import createDialogHandler from './dialog.js';
 
-
 const sampleDialogElement = document.getElementById('sample-dialog-element');
 
 const initSampleDialog = () => {
@@ -10,49 +9,21 @@ const initSampleDialog = () => {
 
   // dialogのelement取得
   const sampleDialogContainer = document.getElementById(
-    'sample-dialog-container',
+    'sample-dialog-container'
   );
   const sampleDialogTopBar = document.getElementById('sample-dialog-top-bar');
-  const sampleDialogBottomBar = document.getElementById('sample-dialog-bottom-bar');
+  const sampleDialogBottomBar = document.getElementById(
+    'sample-dialog-bottom-bar'
+  );
   const sampleDialogOpenButton = document.getElementById(
-    'sample-dialog-open-button',
+    'sample-dialog-open-button'
   );
   const sampleDialogResetButton = document.getElementById(
-    'sample-dialog-reset-button',
+    'sample-dialog-reset-button'
   );
   const sampleDialogSubmitButton = document.getElementById(
-    'sample-dialog-submit-button',
+    'sample-dialog-submit-button'
   );
-
-  //
-  // Dialog内の処理
-  //
-
-
-
-
-  //
-  // Dialog外のViewの処理
-  //
-
-
-  //
-  // handler
-  //
-
-
-  //
-  // EventListener
-  //
-
-  //
-  // Init処理
-  //
-
-
-  //
-  // DialogのInit処理
-  //
 
   // Create Dialog
   const { openDialog, closeDialog } = createDialogHandler({

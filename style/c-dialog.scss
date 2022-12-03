@@ -42,12 +42,12 @@
   }
 
   &::backdrop {
-    /* native */
+    /* dialog-native */
     background-color: rgba(0, 0, 0, 0.8);
   }
 
   & + .backdrop {
-    /* polyfill */
+    /* dialog-polyfill */
     background-color: rgba(0, 0, 0, 0.8);
   }
 
@@ -128,25 +128,23 @@
   align-items: center;
   justify-content: center;
   min-width: 140px;
+  width: 240px;
   height: 44px;
   padding: 0 20px;
   transition: 500ms;
   border: 1px solid gray;
   border-radius: 2px;
   background-color: white;
+  font-size: 16px;
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-  width: 240px;
-  height: 44px;
-  font-size: 16px;
 
   @include screen-M {
     width: 320px;
   }
 
-  &:focus {
-    // hover mixinと同じスタイルを適用
+  &:focus-visible {
     transition: 500ms opacity;
     opacity: 0.75;
   }
