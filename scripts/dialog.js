@@ -2,7 +2,10 @@ import dialogPolyfill from 'dialog-polyfill';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default function createDialogHandler({
- element, container, topBar, bottomBar,
+  element,
+  container,
+  topBar,
+  bottomBar,
 }) {
   dialogPolyfill.registerDialog(element);
 
@@ -35,7 +38,7 @@ export default function createDialogHandler({
     disableBodyScroll(container, {
       // iOSにて、Dialogもscroll lockされるので対処
       // 参考: https://github.com/willmcpo/body-scroll-lock#allowtouchmove
-      allowTouchMove: true,
+      allowTouchMove: () => true,
     });
   };
 
